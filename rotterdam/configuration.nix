@@ -98,6 +98,7 @@
       slack
       spotify
       zotero
+      obsidian
 
       git
       gnupg
