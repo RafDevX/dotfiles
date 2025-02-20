@@ -315,6 +315,7 @@
         redhat.java
         vue.volar
         esbenp.prettier-vscode
+        arrterian.nix-env-selector
       ];
       userSettings =
         {
