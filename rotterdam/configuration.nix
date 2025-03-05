@@ -300,24 +300,34 @@
 
     programs.vscode = {
       enable = true;
-      extensions = with pkgs.vscode-extensions; [
-        eamodio.gitlens
-        streetsidesoftware.code-spell-checker
-        tomoki1207.pdf # pdf preview
-        mkhl.direnv
+      extensions =
+        with pkgs.vscode-extensions;
+        [
+          eamodio.gitlens
+          streetsidesoftware.code-spell-checker
+          tomoki1207.pdf # pdf preview
+          mkhl.direnv
 
-        jnoortheen.nix-ide
-        rust-lang.rust-analyzer
-        tamasfe.even-better-toml
-        myriad-dreamin.tinymist # typst
-        hashicorp.terraform
-        hashicorp.hcl
-        redhat.java
-        vue.volar
-        esbenp.prettier-vscode
-        samuelcolvin.jinjahtml
-        arrterian.nix-env-selector
-      ];
+          jnoortheen.nix-ide
+          rust-lang.rust-analyzer
+          tamasfe.even-better-toml
+          myriad-dreamin.tinymist # typst
+          hashicorp.terraform
+          hashicorp.hcl
+          redhat.java
+          vue.volar
+          esbenp.prettier-vscode
+          samuelcolvin.jinjahtml
+          mkhl.direnv
+        ]
+        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "code-spell-checker-swedish";
+            publisher = "streetsidesoftware";
+            version = "1.3.1";
+            hash = "sha256-o5N8BMYtjCm4EWOqjNmH9VaHrcHB6swFqPqiyumCJKU=";
+          }
+        ];
       userSettings =
         {
           "files.autoSave" = "onFocusChange";
@@ -325,6 +335,7 @@
           "files.trimFinalNewlines" = true;
           "editor.formatOnSave" = true;
           "editor.rulers" = [ 80 ];
+          "cSpell.language" = "en,sv";
           "nix.formatterPath" = "nixfmt";
           "tinymist.exportPdf" = "onDocumentHasTitle";
           "tinymist.formatterMode" = "typstyle";
