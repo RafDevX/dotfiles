@@ -311,7 +311,6 @@
           jnoortheen.nix-ide
           rust-lang.rust-analyzer
           tamasfe.even-better-toml
-          myriad-dreamin.tinymist # typst
           hashicorp.terraform
           hashicorp.hcl
           redhat.java
@@ -320,6 +319,9 @@
           samuelcolvin.jinjahtml
           mkhl.direnv
         ]
+        ++ (with pkgs-unstable.vscode-extensions; [
+          myriad-dreamin.tinymist # typst
+        ])
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             name = "code-spell-checker-swedish";
