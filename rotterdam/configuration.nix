@@ -314,6 +314,7 @@
           hashicorp.terraform
           hashicorp.hcl
           redhat.java
+          golang.go
           vue.volar
           esbenp.prettier-vscode
           samuelcolvin.jinjahtml
