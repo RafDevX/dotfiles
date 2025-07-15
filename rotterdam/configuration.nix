@@ -409,6 +409,52 @@
     nixfmt-rfc-style
   ];
 
+  # DNS over HTTPS (DoH) via Cloudflare
+  services.dnsproxy = {
+    enable = true;
+    settings = {
+      # https://dnscrypt.info/stamps/
+      upstream = [
+        # cloudflare
+        "sdns://AgcAAAAAAAAABzEuMS4xLjEAEmRucy5jbG91ZGZsYXJlLmNvbQovZG5zLXF1ZXJ5" # 1.1.1.1
+        "sdns://AgcAAAAAAAAABzEuMC4wLjEAEmRucy5jbG91ZGZsYXJlLmNvbQovZG5zLXF1ZXJ5" # 1.0.0.1
+        "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTExMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk" # [2606:4700:4700::1111]
+        "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTAwMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk" # [2606:4700:4700::1001]
+      ];
+      fallback = [
+        # quad9
+        "sdns://AgcAAAAAAAAABzkuOS45LjkADWRucy5xdWFkOS5uZXQKL2Rucy1xdWVyeQ" # 9.9.9.9
+        "sdns://AgcAAAAAAAAADzE0OS4xMTIuMTEyLjExMgANZG5zLnF1YWQ5Lm5ldAovZG5zLXF1ZXJ5" # 149.112.112.112
+        "sdns://AgcAAAAAAAAADVsyNjIwOmZlOjpmZV0ADWRucy5xdWFkOS5uZXQKL2Rucy1xdWVyeQ" # [2620:fe::fe]
+        "sdns://AgcAAAAAAAAADFsyNjIwOmZlOjo5XQANZG5zLnF1YWQ5Lm5ldAovZG5zLXF1ZXJ5" # [2620:fe::9]
+      ];
+      listen-addrs = [ "127.0.0.53" ];
+    };
+    flags = [ "--cache" ];
+  };
+  networking = {
+    nameservers = [ "127.0.0.53" ];
+    dhcpcd.extraConfig = "nohook resolv.conf";
+  };
+  # deal with captive portals despite custom DNS and DoH
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp3s0";
+    # same as default but with brave instead of chromium
+    browser = lib.concatStringsSep " " [
+      ''env XDG_CONFIG_HOME="$PREV_CONFIG_HOME"''
+      (lib.getExe pkgs.brave)
+      ''--user-data-dir=''${XDG_DATA_HOME:-$HOME/.local/share}/brave-captive''
+      ''--proxy-server="socks5://$PROXY"''
+      ''--host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"''
+      ''--no-first-run''
+      ''--new-window''
+      ''--incognito''
+      ''-no-default-browser-check''
+      ''http://cache.nixos.org/''
+    ];
+  };
+
   nix = {
     settings = {
       auto-optimise-store = true;
