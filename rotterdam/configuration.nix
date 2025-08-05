@@ -45,7 +45,7 @@
 
   services.fprintd.enable = true; # enable fingerprint
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -300,39 +300,39 @@
 
     programs.vscode = {
       enable = true;
-      extensions =
-        with pkgs.vscode-extensions;
-        [
-          eamodio.gitlens
-          streetsidesoftware.code-spell-checker
-          tomoki1207.pdf # pdf preview
-          mkhl.direnv
+      profiles.default = {
+        extensions =
+          with pkgs.vscode-extensions;
+          [
+            eamodio.gitlens
+            streetsidesoftware.code-spell-checker
+            tomoki1207.pdf # pdf preview
+            mkhl.direnv
 
-          jnoortheen.nix-ide
-          rust-lang.rust-analyzer
-          tamasfe.even-better-toml
-          hashicorp.terraform
-          hashicorp.hcl
-          redhat.java
-          golang.go
-          vue.volar
-          esbenp.prettier-vscode
-          samuelcolvin.jinjahtml
-          mkhl.direnv
-        ]
-        ++ (with pkgs-unstable.vscode-extensions; [
-          myriad-dreamin.tinymist # typst
-        ])
-        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "code-spell-checker-swedish";
-            publisher = "streetsidesoftware";
-            version = "1.3.1";
-            hash = "sha256-o5N8BMYtjCm4EWOqjNmH9VaHrcHB6swFqPqiyumCJKU=";
-          }
-        ];
-      userSettings =
-        {
+            jnoortheen.nix-ide
+            rust-lang.rust-analyzer
+            tamasfe.even-better-toml
+            hashicorp.terraform
+            hashicorp.hcl
+            redhat.java
+            golang.go
+            vue.volar
+            esbenp.prettier-vscode
+            samuelcolvin.jinjahtml
+            mkhl.direnv
+          ]
+          ++ (with pkgs-unstable.vscode-extensions; [
+            myriad-dreamin.tinymist # typst
+          ])
+          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+            {
+              name = "code-spell-checker-swedish";
+              publisher = "streetsidesoftware";
+              version = "1.3.1";
+              hash = "sha256-o5N8BMYtjCm4EWOqjNmH9VaHrcHB6swFqPqiyumCJKU=";
+            }
+          ];
+        userSettings = {
           "files.autoSave" = "onFocusChange";
           "files.insertFinalNewline" = true;
           "files.trimFinalNewlines" = true;
@@ -370,34 +370,38 @@
             ${scope}."editor.defaultFormatter" = "esbenp.prettier-vscode";
           }
         );
-      keybindings = [
-        {
-          key = "alt+t";
-          command = "editor.action.goToTypeDefinition";
-        }
-        {
-          key = "shift+alt+up";
-          command = "editor.action.copyLinesUpAction";
-          when = "editorTextFocus && !editorReadonly";
-        }
-        {
-          key = "shift+alt+down";
-          command = "editor.action.copyLinesDownAction";
-          when = "editorTextFocus && !editorReadonly";
-        }
-      ];
+        keybindings = [
+          {
+            key = "alt+t";
+            command = "editor.action.goToTypeDefinition";
+          }
+          {
+            key = "shift+alt+up";
+            command = "editor.action.copyLinesUpAction";
+            when = "editorTextFocus && !editorReadonly";
+          }
+          {
+            key = "shift+alt+down";
+            command = "editor.action.copyLinesDownAction";
+            when = "editorTextFocus && !editorReadonly";
+          }
+        ];
+      };
     };
   };
 
-  fonts.packages = with pkgs; [
-    fira-code
-    font-awesome
-    nerdfonts
-    noto-fonts
-    noto-fonts-extra
-    noto-fonts-emoji
-    noto-fonts-cjk-sans
-  ];
+  fonts.packages =
+    with pkgs;
+    [
+      fira-code
+      font-awesome
+      noto-fonts
+      noto-fonts-extra
+      noto-fonts-emoji
+      noto-fonts-cjk-sans
+    ]
+    # all fonts in the nerd-fonts namespace
+    ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
   virtualisation.docker.enable = true;
 

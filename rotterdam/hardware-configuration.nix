@@ -29,7 +29,8 @@
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-ba2146ea-a5da-43f0-a61b-1fad7b1b367e".device = "/dev/disk/by-uuid/ba2146ea-a5da-43f0-a61b-1fad7b1b367e";
+  boot.initrd.luks.devices."luks-ba2146ea-a5da-43f0-a61b-1fad7b1b367e".device =
+    "/dev/disk/by-uuid/ba2146ea-a5da-43f0-a61b-1fad7b1b367e";
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/FB33-910A";
