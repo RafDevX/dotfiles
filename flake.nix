@@ -34,7 +34,7 @@
           };
 
           modules = [
-            ./rotterdam/configuration.nix
+            ./rotterdam
             home-manager.nixosModules.home-manager
           ];
         };

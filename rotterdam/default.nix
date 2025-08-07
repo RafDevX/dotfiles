@@ -9,7 +9,7 @@
 }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware.nix ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
