@@ -19,6 +19,13 @@
       url = "github:nix-community/disko/v1.12.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+      inputs.darwin.follows = ""; # saves resources on linux
+    };
   };
 
   outputs =
@@ -27,6 +34,7 @@
       nixpkgs-unstable,
       home-manager,
       disko,
+      agenix,
       ...
     }@inputs:
     {
@@ -39,11 +47,13 @@
           specialArgs = {
             inherit inputs;
             pkgs-unstable = import nixpkgs-unstable { inherit system; };
+            secretsDir = ./secrets;
           };
 
           modules = [
             ./rotterdam
             home-manager.nixosModules.home-manager
+            agenix.nixosModules.default
           ];
         };
 
@@ -60,6 +70,7 @@
           modules = [
             ./avior
             disko.nixosModules.disko
+            agenix.nixosModules.default
           ];
         };
       };
