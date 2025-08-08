@@ -3,6 +3,20 @@
 This repository contains my personal configuration files. Structure will improve
 (slowly) over time.
 
+## Deploying
+
+### Current Host
+
+```sh
+sudo nixos-rebuild switch --flake .
+```
+
+### Remote Host
+
+```sh
+nixos-rebuild switch --flake .#avior --target-host avior.rso.pt --use-remote-sudo
+```
+
 ## Updating
 
 Run
