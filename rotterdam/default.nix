@@ -484,6 +484,10 @@
         "nix-command"
         "flakes"
       ];
+
+      # used to sign build outputs before sending to remote when using
+      # `nixos-rebuild` with `--target-host`; must be trusted by host
+      secret-key-files = [ "/etc/nix/signing-key.sec" ];
     };
 
     # lock flake registry to keep sync'd with inputs
