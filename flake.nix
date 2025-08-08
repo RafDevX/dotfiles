@@ -14,6 +14,11 @@
       url = "github:nix-community/nixvim/nixos-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko/v1.12.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,10 +26,13 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
+      disko,
       ...
     }@inputs:
     {
       nixosConfigurations = {
+        # Personal Computers: Cities in the Netherlands
+        # https://en.wikipedia.org/wiki/List_of_cities_in_the_Netherlands
         rotterdam = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
 
@@ -36,6 +44,22 @@
           modules = [
             ./rotterdam
             home-manager.nixosModules.home-manager
+          ];
+        };
+
+        # Servers: Stars (Modern Proper Name)
+        # https://en.wikipedia.org/wiki/List_of_proper_names_of_stars (A->Z)
+        avior = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+
+          specialArgs = {
+            inherit inputs;
+            pkgs-unstable = import nixpkgs-unstable { inherit system; };
+          };
+
+          modules = [
+            ./avior
+            disko.nixosModules.disko
           ];
         };
       };
