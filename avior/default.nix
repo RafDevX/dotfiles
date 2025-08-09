@@ -43,6 +43,11 @@
 
   services.openssh.enable = true;
 
+  services.postgresql = {
+    enable = true;
+    enableJIT = true;
+  };
+
   programs.zsh.enable = true;
   programs.vim = {
     enable = true;
