@@ -59,6 +59,7 @@
     ripgrep
     git
     curl
+    htop
   ];
 
   nix = {
