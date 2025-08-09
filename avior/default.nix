@@ -116,6 +116,9 @@
       MAIL_PASSWORD_FILE = config.age.secrets.firefly3MailPassword.path;
       MAIL_ENCRYPTION = "tls";
 
+      ENABLE_EXCHANGE_RATES = "true";
+      ENABLE_EXTERNAL_RATES = "true";
+
       TRUSTED_PROXIES = "**";
       COOKIE_SECURE = "true";
       COOKIE_SAMESITE = "strict";
