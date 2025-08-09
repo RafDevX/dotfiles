@@ -1,5 +1,7 @@
 {
+  config,
   pkgs,
+  secretsDir,
   inputs,
   ...
 }:
@@ -84,6 +86,43 @@
     defaults.email = "lets-encrypt@rso.pt";
   };
 
+  services.nginx.virtualHosts."firefly.rso.pt" = {
+    enableACME = true;
+    # redirect to HTTPS automatically
+    forceSSL = true;
+  };
+
+  services.firefly-iii = {
+    enable = true;
+    virtualHost = "firefly.rso.pt";
+    enableNginx = true;
+    settings = {
+      APP_URL = "https://firefly.rso.pt";
+      APP_ENV = "production";
+      APP_KEY_FILE = config.age.secrets.firefly3AppKey.path;
+      SITE_OWNER = "firefly@rso.pt";
+
+      DB_CONNECTION = "pgsql";
+      DB_HOST = "localhost";
+      DB_DATABASE = "firefly-iii";
+      DB_USERNAME = "firefly-iii";
+      DB_PASSWORD_FILE = config.age.secrets.firefly3DbPassword.path;
+
+      MAIL_MAILER = "smtp";
+      MAIL_HOST = "mail.rso.pt";
+      MAIL_PORT = "587";
+      MAIL_FROM = "firefly@rso.pt";
+      MAIL_USERNAME = "firefly@rso.pt";
+      MAIL_PASSWORD_FILE = config.age.secrets.firefly3MailPassword.path;
+      MAIL_ENCRYPTION = "tls";
+
+      TRUSTED_PROXIES = "**";
+      COOKIE_SECURE = "true";
+      COOKIE_SAMESITE = "strict";
+      TZ = "Europe/Lisbon";
+    };
+  };
+
   programs.zsh.enable = true;
   programs.vim = {
     enable = true;
@@ -97,6 +136,21 @@
     curl
     htop
   ];
+
+  age.secrets = {
+    firefly3AppKey = {
+      file = secretsDir + "/firefly3-app-key.age";
+      owner = config.services.firefly-iii.user;
+    };
+    firefly3DbPassword = {
+      file = secretsDir + "/firefly3-db-password.age";
+      owner = config.services.firefly-iii.user;
+    };
+    firefly3MailPassword = {
+      file = secretsDir + "/firefly3-mail-password.age";
+      owner = config.services.firefly-iii.user;
+    };
+  };
 
   nix = {
     settings = {

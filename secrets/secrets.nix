@@ -10,5 +10,10 @@ let
   avior = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPCaGPjz/YuBkQK/WGOKwFhhjI+dXjBOOBG2w4KJ2RKG";
 in
 {
+  # `name:<private key>`
   "nix-signing-key.sec.age".publicKeys = rso ++ [ rotterdam ];
+
+  "firefly3-app-key.age".publicKeys = rso ++ [ avior ]; # exactly 32 characters
+  "firefly3-db-password.age".publicKeys = rso ++ [ avior ];
+  "firefly3-mail-password.age".publicKeys = rso ++ [ avior ];
 }

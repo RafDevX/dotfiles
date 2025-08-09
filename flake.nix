@@ -65,6 +65,7 @@
           specialArgs = {
             inherit inputs;
             pkgs-unstable = import nixpkgs-unstable { inherit system; };
+            secretsDir = ./secrets;
           };
 
           modules = [

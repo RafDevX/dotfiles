@@ -492,7 +492,7 @@
   };
 
   age.secrets = {
-    nix-signing-key.file = secretsDir + "/nix-signing-key.sec.age";
+    nixSigningKey.file = secretsDir + "/nix-signing-key.sec.age";
   };
 
   nix = {
@@ -505,7 +505,7 @@
 
       # used to sign build outputs before sending to remote when using
       # `nixos-rebuild` with `--target-host`; must be trusted by host
-      secret-key-files = [ config.age.secrets.nix-signing-key.path ];
+      secret-key-files = [ config.age.secrets.nixSigningKey.path ];
     };
 
     # lock flake registry to keep sync'd with inputs
