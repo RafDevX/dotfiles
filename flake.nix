@@ -51,7 +51,7 @@
           };
 
           modules = [
-            ./rotterdam
+            ./hosts/rotterdam
             home-manager.nixosModules.home-manager
             agenix.nixosModules.default
           ];
@@ -69,7 +69,7 @@
           };
 
           modules = [
-            ./avior
+            ./hosts/avior
             disko.nixosModules.disko
             agenix.nixosModules.default
           ];
