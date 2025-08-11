@@ -120,6 +120,7 @@
       pkgs-unstable.typst
       pkgs-unstable.tinymist # typst lsp
       pkgs-unstable.typstyle
+      nil # nix LSP
       zathura
 
       binutils # e.g., strings
@@ -352,7 +353,24 @@
           "editor.formatOnSave" = true;
           "editor.rulers" = [ 80 ];
           "cSpell.language" = "en,sv";
-          "nix.formatterPath" = "nixfmt";
+
+          "nix.formatterPath" = [
+            "nix"
+            "fmt"
+          ];
+          "nix.enableLanguageServer" = true;
+          "nix.serverPath" = "nil";
+          "nix.serverSettings" = {
+            nil = {
+              formatting = {
+                command = [
+                  "nix"
+                  "fmt"
+                ];
+              };
+            };
+          };
+
           "tinymist.exportPdf" = "onDocumentHasTitle";
           "tinymist.formatterMode" = "typstyle";
           "[typst]" = {
