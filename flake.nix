@@ -37,47 +37,37 @@
       agenix,
       ...
     }@inputs:
+
+    let
+      lib = nixpkgs.lib.extend (
+        final: _prev:
+        import ./lib ({
+          inherit inputs;
+
+          lib = final;
+        })
+      );
+
+      system = "x86_64-linux";
+    in
     {
-      nixosConfigurations = {
-        # Personal Computers: Cities in the Netherlands
-        # https://en.wikipedia.org/wiki/List_of_cities_in_the_Netherlands
-        rotterdam = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-
-          specialArgs = {
-            inherit inputs;
-            pkgs-unstable = import nixpkgs-unstable { inherit system; };
-            secretsDir = ./secrets;
-          };
-
-          modules = [
-            ./hosts/rotterdam
-            home-manager.nixosModules.home-manager
-            agenix.nixosModules.default
-          ];
+      nixosConfigurations = lib.rso.mkHosts ./hosts {
+        extraArgs = {
+          # pkgs is already a default arg passed to NixOS modules, but we also
+          # want to have a pkgs-unstable equivalent
+          pkgs-unstable = import nixpkgs-unstable { inherit system; };
+          secretsDir = ./secrets;
         };
 
-        # Servers: Stars (Modern Proper Name)
-        # https://en.wikipedia.org/wiki/List_of_proper_names_of_stars (A->Z)
-        avior = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-
-          specialArgs = {
-            inherit inputs;
-            pkgs-unstable = import nixpkgs-unstable { inherit system; };
-            secretsDir = ./secrets;
-          };
-
-          modules = [
-            ./hosts/avior
-            disko.nixosModules.disko
-            agenix.nixosModules.default
-          ];
-        };
+        extraModules = [
+          home-manager.nixosModules.home-manager
+          disko.nixosModules.disko
+          agenix.nixosModules.default
+        ];
       };
 
       formatter = {
-        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+        ${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
       };
     };
 }

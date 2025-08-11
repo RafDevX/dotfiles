@@ -2,7 +2,6 @@
   config,
   pkgs,
   pkgs-unstable,
-  nixvim,
   secretsDir,
   lib,
   inputs,
@@ -22,7 +21,6 @@
     memoryPercent = 50; # ZRAM swap with half total physical RAM size
   };
 
-  networking.hostName = "rotterdam";
   networking.networkmanager.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
