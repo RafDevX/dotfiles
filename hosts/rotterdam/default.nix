@@ -1,57 +1,21 @@
 {
-  config,
   pkgs,
   pkgs-unstable,
-  secretsDir,
+  profiles,
   lib,
   inputs,
   ...
 }:
 
 {
-  imports = [ ./hardware.nix ];
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  hardware.enableRedistributableFirmware = true;
-  services.fwupd.enable = true; # firmware update utility
-
-  zramSwap = {
-    enable = true;
-    memoryPercent = 50; # ZRAM swap with half total physical RAM size
-  };
-
-  networking.networkmanager.enable = true;
-
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = null;
-  services.automatic-timezoned.enable = true;
-  services.geoclue2.enableDemoAgent = lib.mkForce true; # because Gnome...
-  services.geoclue2.geoProviderUrl = "https://beacondb.net/v1/geolocate";
-  # ^ necessary because Mozilla Location Service has been shut down
-
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "altgr-intl";
-    options = "compose:rctrl";
-  };
-
-  services.printing.enable = true; # enable CUPS
+  imports = with profiles; [
+    kind.laptop
+    firmware.uefi
+    graphical.gnome
+    ./hardware.nix
+  ];
 
   services.fprintd.enable = true; # enable fingerprint
-
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   users.mutableUsers = false; # ensure users and groups are set declaratively
   users.users.raf = {
@@ -67,21 +31,7 @@
     ];
   };
 
-  # more for agenix to have a host key than anything else at this point, but
-  # it might come in useful in the future if there's ever better host inter-comm
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-    };
-  };
-
   programs.firefox.enable = true;
-  programs.zsh.enable = true;
-  programs.vim = {
-    enable = true;
-    defaultEditor = true;
-  };
   programs.wireshark = {
     enable = true;
     package = pkgs.wireshark; # not CLI version
@@ -437,57 +387,8 @@
     };
   };
 
-  fonts.packages =
-    with pkgs;
-    [
-      fira-code
-      font-awesome
-      noto-fonts
-      noto-fonts-extra
-      noto-fonts-emoji
-      noto-fonts-cjk-sans
-    ]
-    # all fonts in the nerd-fonts namespace
-    ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
-
   virtualisation.docker.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = with pkgs; [
-    fd
-    ripgrep
-    nixfmt-rfc-style
-    inputs.agenix.packages.${system}.default # agenix CLI
-  ];
-
-  # DNS over HTTPS (DoH) via Cloudflare
-  services.dnsproxy = {
-    enable = true;
-    settings = {
-      # https://dnscrypt.info/stamps/
-      upstream = [
-        # cloudflare
-        "sdns://AgcAAAAAAAAABzEuMS4xLjEAEmRucy5jbG91ZGZsYXJlLmNvbQovZG5zLXF1ZXJ5" # 1.1.1.1
-        "sdns://AgcAAAAAAAAABzEuMC4wLjEAEmRucy5jbG91ZGZsYXJlLmNvbQovZG5zLXF1ZXJ5" # 1.0.0.1
-        "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTExMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk" # [2606:4700:4700::1111]
-        "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTAwMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk" # [2606:4700:4700::1001]
-      ];
-      fallback = [
-        # quad9
-        "sdns://AgcAAAAAAAAABzkuOS45LjkADWRucy5xdWFkOS5uZXQKL2Rucy1xdWVyeQ" # 9.9.9.9
-        "sdns://AgcAAAAAAAAADzE0OS4xMTIuMTEyLjExMgANZG5zLnF1YWQ5Lm5ldAovZG5zLXF1ZXJ5" # 149.112.112.112
-        "sdns://AgcAAAAAAAAADVsyNjIwOmZlOjpmZV0ADWRucy5xdWFkOS5uZXQKL2Rucy1xdWVyeQ" # [2620:fe::fe]
-        "sdns://AgcAAAAAAAAADFsyNjIwOmZlOjo5XQANZG5zLnF1YWQ5Lm5ldAovZG5zLXF1ZXJ5" # [2620:fe::9]
-      ];
-      listen-addrs = [ "127.0.0.53" ];
-    };
-    flags = [ "--cache" ];
-  };
-  networking = {
-    nameservers = [ "127.0.0.53" ];
-    dhcpcd.extraConfig = "nohook resolv.conf";
-  };
   # deal with captive portals despite custom DNS and DoH
   programs.captive-browser = {
     enable = true;
@@ -504,37 +405,6 @@
       ''--incognito''
       ''-no-default-browser-check''
       ''http://cache.nixos.org/''
-    ];
-  };
-
-  age.secrets = {
-    nixSigningKey.file = secretsDir + "/nix-signing-key.sec.age";
-  };
-
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-
-      # used to sign build outputs before sending to remote when using
-      # `nixos-rebuild` with `--target-host`; must be trusted by host
-      secret-key-files = [ config.age.secrets.nixSigningKey.path ];
-    };
-
-    # lock flake registry to keep sync'd with inputs
-    # (e.g., used by `nix run pkgs#name`)
-    registry = {
-      pkgs.flake = inputs.nixpkgs; # alias to nixpkgs
-      unstable.flake = inputs.nixpkgs-unstable;
-    };
-
-    nixPath = [
-      "nixpkgs=flake:pkgs"
-      "unstable=flake:unstable"
-      "/nix/var/nix/profiles/per-user/root/channels"
     ];
   };
 

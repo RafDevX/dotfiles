@@ -2,6 +2,25 @@
 
 let
   /*
+    Synopsis: mkProfiles profilesDir
+
+    Generate profiles from the NixOS modules found in the specified directory.
+
+    Inputs:
+    - profilesDir: The path to the directory containing NixOS modules.
+
+    Output Format:
+    An attribute set representing profiles.
+    The function uses the `rakeLeaves` function to recursively collect Nix files
+    and directories within the `profilesDir` directory.
+    The result is an attribute set mapping Nix files and directories
+    to their corresponding keys.
+    These profiles can be used to selectively apply certain configurations on a
+    host-by-host basis, depending on necessity.
+  */
+  mkProfiles = profilesDir: lib.rso.rakeLeaves profilesDir;
+
+  /*
     Synopsis: mkHost hostname hostPath { extraArgs ? {}, extraModules ? [] }
 
     Generate a NixOS system configuration for the specified hostname.
@@ -82,5 +101,9 @@ let
     ];
 in
 {
-  inherit mkHost mkHosts;
+  inherit
+    mkProfiles
+    mkHost
+    mkHosts
+    ;
 }
