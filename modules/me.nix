@@ -9,7 +9,7 @@
 {
   options.rso.me = {
     username = lib.mkOption {
-      type = with lib.types; str;
+      type = with lib.types; singleLineStr;
       example = "john";
       description = ''
         Username for the host's primary user account.
@@ -17,7 +17,7 @@
     };
 
     name = lib.mkOption {
-      type = with lib.types; str;
+      type = with lib.types; singleLineStr;
       example = "John Doe";
       description = ''
         Description for the host's primary user account.
@@ -27,7 +27,7 @@
     };
 
     hashedPassword = lib.mkOption {
-      type = with lib.types; str;
+      type = with lib.types; singleLineStr;
       example = "$y$j9T$kGpQVCjF.2lMS2zYZLGtS1$dXV5jnEcdJcRZALfCtAYAIQn9CU6MDu0/g/eB94Lyj3";
       description = ''
         Password for the host's primary user account (hashed).
@@ -48,7 +48,7 @@
     };
 
     extraGroups = lib.mkOption {
-      type = with lib.types; listOf str;
+      type = with lib.types; listOf singleLineStr;
       default = [ ];
       example = [
         "networkmanager"
@@ -66,7 +66,7 @@
     };
 
     authorizedKeys = lib.mkOption {
-      type = with lib.types; listOf str;
+      type = with lib.types; listOf singleLineStr;
       default = [ ];
       example = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOwaEu0TGRXhxjk1+Pz2LP66Vfvvgr3IvxkRfkcRiP0Y john@machine"

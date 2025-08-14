@@ -4,7 +4,7 @@
 {
   options.rso.networking = {
     wirelessInterface = lib.mkOption {
-      type = with lib.types; nullOr str;
+      type = with lib.types; nullOr singleLineStr;
       default = null;
       example = "wlo1";
       description = ''

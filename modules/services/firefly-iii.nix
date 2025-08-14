@@ -10,7 +10,7 @@
     enable = lib.mkEnableOption "Firefly-III";
 
     domain = lib.mkOption {
-      type = with lib.types; str;
+      type = with lib.types; singleLineStr;
       example = "sub.example.com";
       description = ''
         Domain where to serve the Firefly application (using nginx).
