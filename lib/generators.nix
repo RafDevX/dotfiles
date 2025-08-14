@@ -34,14 +34,43 @@ let
   mkModules = modulesDir: lib.collect builtins.isPath (lib.rso.rakeLeaves modulesDir);
 
   /*
-    Synopsis: mkHost hostname hostPath { extraArgs ? {}, extraModules ? [] }
+    Synopsis: mkSecrets secretsDir hostname
+
+    Generate secrets from the age files found in the specified directory.
+
+    Inputs:
+    - secretsDir: The path to the directory containing age files.
+    - hostname: This host's hostname.
+
+    Output Format:
+    An attribute set representing secrets, collected recursively from the given
+    directory, where each leaf value is a file path.
+    Keys correspond to file/directory names, except that they are given in
+    camelCase instead of (what is here assumed to be) their original form in
+    kebab-case, with trailing extensions removed.
+    An additional top-level key `host` is defined as an alias to the top-level
+    key corresponding to the given hostname; this means that files in a folder
+    `machine/` will become accessible under secrets.host for host `machine`.
+  */
+  mkSecrets =
+    secretsDir: hostname:
+    let
+      raked = lib.rso.rakeLeavesWithSuffix ".age" { } secretsDir;
+      stripExtensions = key: builtins.head (lib.splitString "." key);
+      mapper = key: lib.rso.kebabToCamel (stripExtensions key);
+      secrets = lib.rso.mapAttrsRecursive' (name: value: lib.nameValuePair (mapper name) value) raked;
+    in
+    secrets // { host = secrets.${hostname}; };
+
+  /*
+    Synopsis: mkHost hostname hostPath { extraArgs ? (_:{}), extraModules ? [] }
 
     Generate a NixOS system configuration for the specified hostname.
 
     Inputs:
     - hostname: The hostname for the target NixOS system.
     - hostPath: The path to the directory containing host-specific Nix configs.
-    - extraArgs: Optional attributes to be passed down to all modules.
+    - extraArgs: Function mapping hostname to extra arguments for all modules.
     - extraModules: Optional list of additional NixOS modules to include.
 
     Output Format:
@@ -51,7 +80,7 @@ let
   mkHost =
     hostname: hostPath:
     {
-      extraArgs ? { },
+      extraArgs ? (_: { }),
       extraModules ? [ ],
       ...
     }:
@@ -64,7 +93,7 @@ let
       specialArgs = {
         inherit inputs;
       }
-      // extraArgs;
+      // (extraArgs hostname);
 
       modules = [
         { networking.hostName = hostname; }
@@ -74,14 +103,14 @@ let
     };
 
   /*
-    Synopsis: mkHosts hostsDir { extraArgs ? {}, extraModules ? [] }
+    Synopsis: mkHosts hostsDir { extraArgs ? (_: {}), extraModules ? [] }
 
     Generate a set of NixOS system configurations for the hosts defined in the
     specified directory.
 
     Inputs:
     - hostsDir: The path to the directory containing host-specific configs.
-    - extraArgs: Optional attributes to be passed down to all modules.
+    - extraArgs: Function mapping hostname to extra arguments for all modules.
     - extraModules: Optional list of additional NixOS modules to include.
 
     Output Format:
@@ -94,7 +123,7 @@ let
   mkHosts =
     hostsDir:
     opts@{
-      extraArgs ? { },
+      extraArgs ? (_: { }),
       extraModules ? [ ],
       ...
     }:
@@ -117,6 +146,7 @@ in
   inherit
     mkProfiles
     mkModules
+    mkSecrets
     mkHost
     mkHosts
     ;

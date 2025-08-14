@@ -11,9 +11,9 @@ let
 in
 {
   # `name:<private key>`
-  "nix-signing-key.sec.age".publicKeys = rso ++ [ rotterdam ];
+  "rotterdam/nix-signing-key.sec.age".publicKeys = rso ++ [ rotterdam ];
 
-  "firefly3-app-key.age".publicKeys = rso ++ [ avior ]; # exactly 32 characters
-  "firefly3-db-password.age".publicKeys = rso ++ [ avior ];
-  "firefly3-mail-password.age".publicKeys = rso ++ [ avior ];
+  "avior/firefly3-app-key.age".publicKeys = rso ++ [ avior ]; # exactly 32 characters
+  "avior/firefly3-db-password.age".publicKeys = rso ++ [ avior ];
+  "avior/firefly3-mail-password.age".publicKeys = rso ++ [ avior ];
 }

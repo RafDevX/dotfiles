@@ -2,14 +2,14 @@
 {
   config,
   pkgs,
-  secretsDir,
+  secrets,
   inputs,
   ...
 }:
 
 {
   age.secrets = {
-    nixSigningKey.file = secretsDir + "/nix-signing-key.sec.age";
+    nixSigningKey.file = secrets.host.nixSigningKey;
   };
 
   nix.settings.secret-key-files = [ config.age.secrets.nixSigningKey.path ];

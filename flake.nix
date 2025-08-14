@@ -64,12 +64,12 @@
     in
     {
       nixosConfigurations = lib.rso.mkHosts ./hosts {
-        extraArgs = {
+        extraArgs = hostname: {
           # pkgs is already a default arg passed to NixOS modules, but we also
           # want to have a pkgs-unstable equivalent
           pkgs-unstable = import nixpkgs-unstable { inherit system; };
           profiles = lib.rso.mkProfiles ./profiles;
-          secretsDir = ./secrets;
+          secrets = lib.rso.mkSecrets ./secrets hostname;
         };
 
         extraModules =

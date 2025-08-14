@@ -1,6 +1,6 @@
 {
   config,
-  secretsDir,
+  secrets,
   profiles,
   ...
 }:
@@ -61,15 +61,15 @@
 
   age.secrets = {
     firefly3AppKey = {
-      file = secretsDir + "/firefly3-app-key.age";
+      file = secrets.host.firefly3AppKey;
       owner = config.services.firefly-iii.user;
     };
     firefly3DbPassword = {
-      file = secretsDir + "/firefly3-db-password.age";
+      file = secrets.host.firefly3DbPassword;
       owner = config.services.firefly-iii.user;
     };
     firefly3MailPassword = {
-      file = secretsDir + "/firefly3-mail-password.age";
+      file = secrets.host.firefly3MailPassword;
       owner = config.services.firefly-iii.user;
     };
   };
