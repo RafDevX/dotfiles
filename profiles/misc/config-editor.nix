@@ -1,4 +1,4 @@
-# Environments where this flake / NixOS configurations are edited.
+# Environments where this flake / NixOS configurations are edited
 {
   config,
   pkgs,

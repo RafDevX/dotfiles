@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   secretsDir,
   profiles,
   ...
@@ -14,21 +13,6 @@
     ./disk.nix
     ./hardware.nix
   ];
-
-  users.mutableUsers = false; # ensure users and groups are set declaratively
-  users.users.raf = {
-    isNormalUser = true;
-    description = "Raf";
-    hashedPassword = "$y$j9T$22ptNC3YRhTx7OgmwpMuU0$EQUgjVjGlRkfwYnwFp0x/Dnn1yjW1XH3vocdBnNCPyB";
-    createHome = true;
-    shell = pkgs.bash;
-    extraGroups = [
-      "wheel"
-    ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOwaEu0TGRXhxjk1+Pz2LP66Vfvvgr3IvxkRfkcRiP0Y raf@rotterdam"
-    ];
-  };
 
   services.postgresql = {
     enable = true;

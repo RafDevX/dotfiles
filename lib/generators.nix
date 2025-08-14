@@ -21,6 +21,19 @@ let
   mkProfiles = profilesDir: lib.rso.rakeLeaves profilesDir;
 
   /*
+    Synopsis: mkModules modulesDir
+
+    Generate a list of NixOS modules found in the specified directory.
+
+    Inputs:
+    - modulesDir: The path to the directory containing NixOS modules.
+
+    Output Format:
+    A (flat) list of Nix files recursively collected from the given directory.
+  */
+  mkModules = modulesDir: lib.collect builtins.isPath (lib.rso.rakeLeaves modulesDir);
+
+  /*
     Synopsis: mkHost hostname hostPath { extraArgs ? {}, extraModules ? [] }
 
     Generate a NixOS system configuration for the specified hostname.
@@ -103,6 +116,7 @@ in
 {
   inherit
     mkProfiles
+    mkModules
     mkHost
     mkHosts
     ;

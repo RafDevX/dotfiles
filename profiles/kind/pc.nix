@@ -9,20 +9,28 @@
 
 {
   imports = with profiles; [
-    base
     misc.audio
     networking.dns-over-https
     # technically ssh server is not really required for laptops, but it's
     # simpler to use agenix if there's an ssh host key, and in any case this
     # might come in useful in the future if/when there's a better host-to-host
     # intercom mechanism that works even when IPs change and across firewalls
-    services.ssh
+    services.ssh-server
+    graphical.captive-portals
+    graphical.flameshot
+    programs.ssh-client
     misc.config-editor
   ];
+
+  rso.me.shell = pkgs.zsh;
+  programs.zsh.enable = true;
+
+  rso.home.enable = true;
 
   time.timeZone = lib.mkDefault "Europe/Lisbon";
 
   networking.networkmanager.enable = true;
+  rso.me.extraGroups = [ "networkmanager" ]; # allow user to manage network
 
   services.xserver.xkb = {
     layout = "us";
@@ -31,8 +39,6 @@
   };
 
   services.printing.enable = true; # enable CUPS
-
-  programs.zsh.enable = true;
 
   fonts.packages =
     with pkgs;

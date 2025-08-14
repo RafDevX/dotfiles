@@ -1,12 +1,6 @@
 # OpenSSH server
 { ... }:
 
-let
-  authorizedKeys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOwaEu0TGRXhxjk1+Pz2LP66Vfvvgr3IvxkRfkcRiP0Y raf@rotterdam"
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJJWUTzd1uLY77F7ka6hLIygt1eocwrSLzQtZ9b6wRTf+6900Pfc2XyQvEMYjJd+ZqINbXN6mVnvlKtcaC6Nv2o= gazelle" # mobile
-  ];
-in
 {
   services.openssh = {
     enable = true;
@@ -22,4 +16,9 @@ in
       KbdInteractiveAuthentication = false;
     };
   };
+
+  rso.me.authorizedKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOwaEu0TGRXhxjk1+Pz2LP66Vfvvgr3IvxkRfkcRiP0Y raf@rotterdam"
+    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJJWUTzd1uLY77F7ka6hLIygt1eocwrSLzQtZ9b6wRTf+6900Pfc2XyQvEMYjJd+ZqINbXN6mVnvlKtcaC6Nv2o= gazelle" # mobile
+  ];
 }

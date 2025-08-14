@@ -48,6 +48,18 @@
         })
       );
 
+      dependencyModules = [
+        home-manager.nixosModules.home-manager
+        disko.nixosModules.disko
+        agenix.nixosModules.default
+      ];
+
+      userConfig = {
+        username = "raf";
+        name = "Raf";
+        hashedPassword = lib.mkDefault "$y$j9T$22ptNC3YRhTx7OgmwpMuU0$EQUgjVjGlRkfwYnwFp0x/Dnn1yjW1XH3vocdBnNCPyB";
+      };
+
       system = "x86_64-linux";
     in
     {
@@ -60,11 +72,12 @@
           secretsDir = ./secrets;
         };
 
-        extraModules = [
-          home-manager.nixosModules.home-manager
-          disko.nixosModules.disko
-          agenix.nixosModules.default
-        ];
+        extraModules =
+          dependencyModules
+          ++ (lib.rso.mkModules ./modules)
+          ++ [
+            { rso.me = userConfig; }
+          ];
       };
 
       formatter = {

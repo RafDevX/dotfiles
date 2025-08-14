@@ -2,8 +2,7 @@
 
 {
   imports = with profiles; [
-    base
-    services.ssh
+    services.ssh-server
   ];
 
   time.timeZone = lib.mkDefault "Europe/Lisbon";
