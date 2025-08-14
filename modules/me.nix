@@ -93,6 +93,8 @@
         description = cfg.name;
         createHome = true;
         extraGroups = [ "wheel" ] ++ cfg.extraGroups;
+
+        openssh.authorizedKeys.keys = cfg.authorizedKeys;
       };
     };
 }
