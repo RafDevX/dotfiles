@@ -7,15 +7,11 @@
   imports = with profiles; [
     kind.server
     firmware.bios
+    services.postgresql
     services.nginx
     ./disk.nix
     ./hardware.nix
   ];
-
-  services.postgresql = {
-    enable = true;
-    enableJIT = true;
-  };
 
   rso.firefly-iii = {
     enable = true;

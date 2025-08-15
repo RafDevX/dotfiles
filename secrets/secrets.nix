@@ -16,4 +16,7 @@ in
   "avior/firefly3-app-key.age".publicKeys = rso ++ [ avior ]; # exactly 32 characters
   "avior/firefly3-db-password.age".publicKeys = rso ++ [ avior ];
   "avior/firefly3-mail-password.age".publicKeys = rso ++ [ avior ];
+
+  "avior/restic-repo-password.age".publicKeys = rso ++ [ avior ];
+  "avior/restic-backblaze-creds.env.age".publicKeys = rso ++ [ avior ];
 }

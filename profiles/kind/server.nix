@@ -1,8 +1,13 @@
-{ profiles, lib, ... }:
+{
+  profiles,
+  lib,
+  ...
+}:
 
 {
   imports = with profiles; [
     services.ssh-server
+    services.restic
   ];
 
   time.timeZone = lib.mkDefault "Europe/Lisbon";

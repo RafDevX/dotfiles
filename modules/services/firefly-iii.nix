@@ -78,5 +78,9 @@
         # redirect to HTTPS automatically
         forceSSL = true;
       };
+
+      rso.restic.paths = [
+        "${config.services.firefly-iii.dataDir}/storage/upload"
+      ];
     };
 }
