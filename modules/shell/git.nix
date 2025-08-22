@@ -18,6 +18,7 @@
       commit.verbose = true;
       pull.rebase = true;
       rerere.enabled = true;
+      diff.colorMoved = "default"; # color moved codeblocks differently in diff
       url."git@github.com:".pushinsteadOf = "https://github.com/";
     };
 
