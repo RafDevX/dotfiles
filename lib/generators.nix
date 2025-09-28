@@ -141,6 +141,28 @@ let
         lib.nameValuePair hostname (mkHost hostname hostPath opts)
       ))
     ];
+
+  /*
+    Synopsis: mkMergeTopLevel topLevelKeys subConfigs
+
+    Generate a merged NixOS module configuration based on a list of sub-configs,
+    merging them into one. Specifying the top-level keys is necessary to enable
+    a workaround, otherwise this would fail for infinite recursion.
+
+    See: https://gist.github.com/udf/4d9301bdc02ab38439fd64fbda06ea43 by udf
+
+    Inputs:
+    - topLevelKeys: A list of string keys to merge extract.
+    - subConfigs: Configurations to merge.
+
+    Output Format:
+    An attribute set representing a NixOS module configuration.
+  */
+  mkMergeTopLevel =
+    topLevelKeys: subConfigs:
+    lib.getAttrs topLevelKeys (
+      builtins.mapAttrs (k: v: lib.mkMerge v) (lib.foldAttrs (n: a: [ n ] ++ a) [ ] subConfigs)
+    );
 in
 {
   inherit
@@ -149,5 +171,6 @@ in
     mkSecrets
     mkHost
     mkHosts
+    mkMergeTopLevel
     ;
 }
