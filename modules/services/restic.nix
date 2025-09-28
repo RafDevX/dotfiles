@@ -18,7 +18,7 @@
     };
 
     passwordFile = lib.mkOption {
-      type = lib.types.singleLineStr;
+      type = with lib.types; singleLineStr;
       example = "/etc/restic/repo-pwd";
       description = ''
         Path to file containing the password to
@@ -45,7 +45,7 @@
           {
             options = {
               repository = lib.mkOption {
-                type = lib.types.singleLineStr;
+                type = with lib.types; singleLineStr;
                 example = "s3:https://s3.amazonaws.com/bucket-name";
                 description = ''
                   Restic repository to back up to.
@@ -53,7 +53,7 @@
               };
 
               credentialsEnvFile = lib.mkOption {
-                type = lib.types.singleLineStr;
+                type = with lib.types; singleLineStr;
                 example = "/etc/restic/creds";
                 description = ''
                   Credentials to authenticate with to the server (not to
@@ -78,7 +78,7 @@
               };
 
               timer = lib.mkOption {
-                type = lib.types.singleLineStr;
+                type = with lib.types; singleLineStr;
                 default = "03:42";
                 example = "daily UTC"; # midnight
                 description = ''
