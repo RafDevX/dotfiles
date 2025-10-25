@@ -160,8 +160,13 @@ let
   */
   mkMergeTopLevel =
     topLevelKeys: subConfigs:
+    let
+      # handle case where subConfigs is an empty list, so that the desired
+      # attributes are always guaranteed to exist and evaluation never fails
+      subConfigs' = subConfigs ++ [ (lib.genAttrs topLevelKeys (_: { })) ];
+    in
     lib.getAttrs topLevelKeys (
-      builtins.mapAttrs (k: v: lib.mkMerge v) (lib.foldAttrs (n: a: [ n ] ++ a) [ ] subConfigs)
+      builtins.mapAttrs (k: v: lib.mkMerge v) (lib.foldAttrs (n: a: [ n ] ++ a) [ ] subConfigs')
     );
 in
 {
