@@ -41,6 +41,7 @@
         lualine.enable = true; # status bar
         rainbow-delimiters.enable = true;
         lastplace.enable = true;
+        guess-indent.enable = true;
 
         nvim-autopairs = {
           enable = true;
