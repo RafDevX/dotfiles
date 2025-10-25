@@ -35,7 +35,6 @@
     packages = with pkgs; [
       brave
       discord
-      jetbrains.idea-ultimate # intelliJ :(
       mattermost-desktop
       slack
       spotify
