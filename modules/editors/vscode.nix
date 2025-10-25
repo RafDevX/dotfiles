@@ -35,6 +35,12 @@
             version = "1.3.1";
             hash = "sha256-o5N8BMYtjCm4EWOqjNmH9VaHrcHB6swFqPqiyumCJKU=";
           }
+          {
+            name = "code-spell-checker-portuguese";
+            publisher = "streetsidesoftware";
+            version = "2.0.4";
+            hash = "sha256-ZC2sucAiWTz8IVPLlJVegLy7u2keUFZMAVKvVG3X3DY=";
+          }
         ];
 
       userSettings = {
@@ -43,7 +49,7 @@
         "files.trimFinalNewlines" = true;
         "editor.formatOnSave" = true;
         "editor.rulers" = [ 80 ];
-        "cSpell.language" = "en,sv";
+        "cSpell.language" = "en,sv,pt_PT";
 
         "nix.formatterPath" = [
           "nix"
