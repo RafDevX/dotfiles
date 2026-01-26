@@ -70,6 +70,7 @@
 
         "tinymist.exportPdf" = "onDocumentHasTitle";
         "tinymist.formatterMode" = "typstyle";
+        "tinymist.formatterPrintWidth" = 80;
         "[typst]" = {
           "editor.wordSeparators" = "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?";
         };
