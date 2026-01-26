@@ -1,10 +1,9 @@
 { inputs, ... }:
 
 {
-  home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];
+  home-manager.sharedModules = [ inputs.nixvim.homeModules.nixvim ];
 
   rso.home = {
-
     sessionVariables.EDITOR = "nvim";
 
     programs.nixvim = {

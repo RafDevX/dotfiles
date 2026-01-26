@@ -16,6 +16,6 @@
 
   environment.systemPackages = with pkgs; [
     nixfmt-rfc-style
-    inputs.agenix.packages.${system}.default # agenix CLI
+    inputs.agenix.packages.${stdenv.hostPlatform.system}.default # agenix CLI
   ];
 }

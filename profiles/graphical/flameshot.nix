@@ -8,7 +8,7 @@
 {
   rso.home.packages = [ pkgs.flameshot ];
 
-  rso.home.extraConfig.dconf.settings = lib.mkIf config.services.xserver.desktopManager.gnome.enable {
+  rso.home.extraConfig.dconf.settings = lib.mkIf config.services.desktopManager.gnome.enable {
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"

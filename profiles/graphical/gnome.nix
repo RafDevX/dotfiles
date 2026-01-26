@@ -2,8 +2,8 @@
 
 {
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # this pins apps to the dock so that [Win+N] will open/show the Nth pin,
   # making it easier to switch between windows (e.g., Win+3 always shows the

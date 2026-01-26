@@ -46,8 +46,7 @@
       fira-code
       font-awesome
       noto-fonts
-      noto-fonts-extra
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       noto-fonts-cjk-sans
     ]
     # all fonts in the nerd-fonts namespace
