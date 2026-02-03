@@ -14,14 +14,14 @@
     browser = lib.concatStringsSep " " [
       ''env XDG_CONFIG_HOME="$PREV_CONFIG_HOME"''
       (lib.getExe pkgs.brave)
-      ''--user-data-dir=''${XDG_DATA_HOME:-$HOME/.local/share}/brave-captive''
+      "--user-data-dir=\${XDG_DATA_HOME:-$HOME/.local/share}/brave-captive"
       ''--proxy-server="socks5://$PROXY"''
       ''--host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"''
-      ''--no-first-run''
-      ''--new-window''
-      ''--incognito''
-      ''-no-default-browser-check''
-      ''http://cache.nixos.org/''
+      "--no-first-run"
+      "--new-window"
+      "--incognito"
+      "-no-default-browser-check"
+      "http://cache.nixos.org/"
     ];
   };
 
