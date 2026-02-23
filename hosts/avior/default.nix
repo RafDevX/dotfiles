@@ -18,6 +18,11 @@
     domain = "firefly.rso.pt";
   };
 
+  rso.grocy = {
+    enable = true;
+    domain = "grocy.rso.pt";
+  };
+
   rso.nginx-static."just1.rso.pt" = {
     rootDirectoryName = "just1";
     basicAuthHashes = {
