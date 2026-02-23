@@ -23,10 +23,16 @@
     domain = "grocy.rso.pt";
   };
 
-  rso.nginx-static."just1.rso.pt" = {
-    rootDirectoryName = "just1";
-    basicAuthHashes = {
-      just1 = "$2y$05$aBpas4uRVVD/SgWQ6VljWuiqLNt5aD.N9Uvpx8JmIYEmwLAsA9TLC";
+  rso.nginx-static = {
+    "rso.pt" = {
+      rootDirectoryName = "basic";
+    };
+
+    "just1.rso.pt" = {
+      rootDirectoryName = "just1";
+      basicAuthHashes = {
+        just1 = "$2y$05$aBpas4uRVVD/SgWQ6VljWuiqLNt5aD.N9Uvpx8JmIYEmwLAsA9TLC";
+      };
     };
   };
 
