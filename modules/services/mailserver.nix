@@ -17,12 +17,14 @@
       '';
     };
 
-    primaryPasswordFile = lib.mkOption {
+    primaryPasswordHash = lib.mkOption {
       type = with lib.types; singleLineStr;
-      example = "/etc/mail/primary-pwd";
+      example = "$2b$05$rSLEDMr4j5NW.W1a3ueSz.QhooGRLJBJyzfTk.lXOEizIfOLkp.ly";
       description = ''
-        Path to file containing the password to be set for the primary email
-        account (as specified by `primary-address` and `primary-domain`).
+        Password hash to be set for the primary email account (as specified by
+        `primary-address` and `primary-domain`).
+
+        Generate with `mkpasswd -sm bcrypt`.
       '';
     };
 
@@ -78,7 +80,7 @@
 
         loginAccounts = {
           ${primaryAddress} = {
-            hashedPasswordFile = cfg.primaryPasswordFile;
+            hashedPassword = cfg.primaryPasswordHash;
 
             aliases = [ "@${cfg.primaryDomain}" ];
           };

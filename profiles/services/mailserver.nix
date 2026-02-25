@@ -1,6 +1,5 @@
 {
   config,
-  secrets,
   lib,
   ...
 }:
@@ -9,7 +8,7 @@
   rso.mailserver = {
     enable = true;
     primaryUsername = lib.mkDefault "raf";
-    primaryPasswordFile = config.age.secrets.mailAccountPassword.path;
+    primaryPasswordHash = lib.mkDefault "$2b$05$O1r4Q3k6127a6JC55GJAMez3jTnK/kzOquRbPsyBhrT3VyqvW6YVa";
     primaryDomain = lib.mkDefault config.networking.hostName;
 
     # obfuscate a little to try to bypass crawlers
@@ -28,9 +27,5 @@
         ]
       )
     );
-  };
-
-  age.secrets = {
-    mailAccountPassword.file = secrets.host.mailAccountPassword;
   };
 }
