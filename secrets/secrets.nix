@@ -13,6 +13,8 @@ in
   # `name:<private key>`
   "rotterdam/nix-signing-key.sec.age".publicKeys = rso ++ [ rotterdam ];
 
+  "avior/mail-account-password.age".publicKeys = rso ++ [ avior ];
+
   "avior/firefly3-app-key.age".publicKeys = rso ++ [ avior ]; # exactly 32 characters
   "avior/firefly3-db-password.age".publicKeys = rso ++ [ avior ];
   "avior/firefly3-mail-password.age".publicKeys = rso ++ [ avior ];

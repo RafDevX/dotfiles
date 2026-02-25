@@ -26,6 +26,11 @@
       inputs.home-manager.follows = "home-manager";
       inputs.darwin.follows = ""; # saves resources on linux
     };
+
+    nixos-mailserver = {
+      url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -35,6 +40,7 @@
       home-manager,
       disko,
       agenix,
+      nixos-mailserver,
       ...
     }@inputs:
 
@@ -52,6 +58,7 @@
         home-manager.nixosModules.home-manager
         disko.nixosModules.disko
         agenix.nixosModules.default
+        nixos-mailserver.nixosModule
       ];
 
       userConfig = {

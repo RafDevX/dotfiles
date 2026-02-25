@@ -7,11 +7,14 @@
   imports = with profiles; [
     kind.server
     firmware.bios
+    services.mailserver
     services.postgresql
     services.nginx
     ./disk.nix
     ./hardware.nix
   ];
+
+  rso.mailserver.primaryDomain = "rso.pt"; # override from hostname (default)
 
   rso.firefly-iii = {
     enable = true;
