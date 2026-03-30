@@ -36,7 +36,6 @@
       brave
       discord
       mattermost-desktop
-      slack
       spotify
       zotero
       obsidian
