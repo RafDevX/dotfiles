@@ -51,6 +51,14 @@
         "editor.rulers" = [ 80 ];
         "cSpell.language" = "en,sv,pt_PT";
 
+        "github.copilot.nextEditSuggestions.enabled" = false;
+        "github.copilot.enable" = {
+          "*" = false;
+          plaintext = false;
+          markdown = false;
+          scminput = false;
+        };
+
         "nix.formatterPath" = [
           "nix"
           "fmt"
