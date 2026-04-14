@@ -78,6 +78,10 @@
 
         # to deal with spam, see options `rejectRecipients` and `rejectSender`
 
+        rejectSender = [
+          "upgym.torresvedras@gmail.com"
+        ];
+
         loginAccounts = {
           ${primaryAddress} = {
             hashedPassword = cfg.primaryPasswordHash;
