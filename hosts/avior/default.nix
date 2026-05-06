@@ -37,6 +37,10 @@
         just1 = "$2y$05$aBpas4uRVVD/SgWQ6VljWuiqLNt5aD.N9Uvpx8JmIYEmwLAsA9TLC";
       };
     };
+
+    "toki.rso.pt" = {
+      rootDirectoryName = "toki";
+    };
   };
 
   system.stateVersion = "25.05";
