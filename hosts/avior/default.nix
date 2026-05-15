@@ -41,6 +41,13 @@
     "toki.rso.pt" = {
       rootDirectoryName = "toki";
     };
+
+    "wheel.rso.pt" = {
+      rootDirectoryName = "rng-gasque-wheel";
+      basicAuthHashes = {
+        rng = "$y$j9T$toSAupIjmTgO1k4E2.XII0$M6uXSxZOSfGfj8CHwSW5PpEve1k0RsayeuUpz0o8fQ9";
+      };
+    };
   };
 
   system.stateVersion = "25.05";
