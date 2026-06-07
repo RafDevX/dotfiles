@@ -51,6 +51,7 @@
         "editor.rulers" = [ 80 ];
         "cSpell.language" = "en,sv,pt_PT";
 
+        "inlineChat.lineNaturalLanguageHint" = false;
         "github.copilot.nextEditSuggestions.enabled" = false;
         "github.copilot.enable" = {
           "*" = false;
