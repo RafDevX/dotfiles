@@ -15,7 +15,7 @@
   nix.settings.secret-key-files = [ config.age.secrets.nixSigningKey.path ];
 
   environment.systemPackages = with pkgs; [
-    nixfmt-rfc-style
+    nixfmt
     inputs.agenix.packages.${stdenv.hostPlatform.system}.default # agenix CLI
   ];
 }

@@ -29,7 +29,12 @@
   rso.home = {
     programs = {
       java.enable = true;
-      firefox.enable = true;
+
+      firefox = {
+        enable = true;
+        # must hardcode configPath as default changed since stateVersion
+        configPath = ".config/mozilla/firefox";
+      };
     };
 
     packages = with pkgs; [
@@ -55,7 +60,6 @@
       binutils # e.g., strings
       file
       unzip
-      dogdns
       whois
     ];
   };
