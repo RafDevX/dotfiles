@@ -54,8 +54,9 @@
       pkgs-unstable.typst
       pkgs-unstable.tinymist # typst lsp
       pkgs-unstable.typstyle
-      nil # nix LSP
+      nil # nix lsp
       zathura
+      libnotify # notify-send cli utility
 
       binutils # e.g., strings
       file
