@@ -44,6 +44,7 @@
         ];
 
       userSettings = {
+        "workbench.colorTheme" = "Dark Modern"; # was default prior to 2026
         "files.autoSave" = "onFocusChange";
         "files.insertFinalNewline" = true;
         "files.trimFinalNewlines" = true;
