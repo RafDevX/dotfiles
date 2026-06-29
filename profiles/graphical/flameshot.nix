@@ -1,24 +1,13 @@
 {
   config,
-  pkgs,
+  pkgs-unstable,
   lib,
   ...
 }:
 
 {
-  rso.home.packages = [
-    # Change back to `pkgs.flameshot` when there's a new flameshot release;
-    # This is just until PR #4363 is in nixpkgs, otherwise it does not support
-    # copying to clipboard. Upstream says no release anytime soon though.
-    (pkgs.flameshot.overrideAttrs (oldAttrs: {
-      patches = oldAttrs.patches or [ ] ++ [
-        (pkgs.fetchpatch {
-          url = "https://github.com/flameshot-org/flameshot/pull/4363.patch";
-          hash = "sha256-G3uSLIWZ8mOVTgO3EtH8YgUbpMf8Qkuur6pcoM7hrug=";
-        })
-      ];
-    }))
-  ];
+  rso.home.packages = with pkgs-unstable; [ flameshot ];
+  # ^ switch back to stable when v14.0.0 is available there
 
   rso.home.extraConfig.dconf.settings = lib.mkIf config.services.desktopManager.gnome.enable {
     "org/gnome/settings-daemon/plugins/media-keys" = {
