@@ -82,7 +82,7 @@
           "upgym.torresvedras@gmail.com"
         ];
 
-        loginAccounts = {
+        accounts = {
           ${primaryAddress} = {
             hashedPassword = cfg.primaryPasswordHash;
 
