@@ -73,8 +73,8 @@
         fqdn = cfg.mailerDomain;
         domains = [ cfg.primaryDomain ];
 
-        # this sets up a stripped down nginx and opens port 80
-        certificateScheme = "acme-nginx";
+        # reference existing certificate; see nginx below
+        x509.useACMEHost = cfg.mailerDomain;
 
         # to deal with spam, see options `rejectRecipients` and `rejectSender`
 
@@ -98,6 +98,12 @@
       security.acme = {
         acceptTerms = true;
         defaults.email = "lets-encrypt@rso.pt";
+      };
+
+      # enable ACME HTTP-01 challenge with nginx
+      services.nginx = {
+        enable = true;
+        virtualHosts.${cfg.mailerDomain}.enableACME = true;
       };
     };
 }
