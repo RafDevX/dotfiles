@@ -6,17 +6,26 @@
 }:
 
 {
-  rso.home.packages = with pkgs-unstable; [ flameshot ];
-  # ^ switch back to stable when v14.0.0 is available there
+  rso.home.services.flameshot = {
+    enable = true;
+    package = pkgs-unstable.flameshot; # remove when v14 is available in stable
+    settings = {
+      # INI [General] section
+      General = {
+        showDesktopNotification = false;
+        showAbortNotification = false;
+      };
+    };
+  };
 
   rso.home.extraConfig.dconf.settings = lib.mkIf config.services.desktopManager.gnome.enable {
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot/"
       ];
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot" = {
       name = "Flameshot Screenshot";
       binding = "Print";
       # ^ this will clash with built-in "Interactive Screenshot", so for it to

@@ -59,6 +59,21 @@
       '';
     };
 
+    services = lib.mkOption {
+      type = with lib.types; attrsOf anything;
+      default = { };
+      example = {
+        spotifyd.enable = true;
+        ssh-agent = {
+          enable = true;
+          defaultMaximumIdentityLifetime = 3600;
+        };
+      };
+      description = ''
+        Service-specific configurations for the primary user's environment.
+      '';
+    };
+
     extraConfig = lib.mkOption {
       type = with lib.types; attrsOf anything;
       default = { };
@@ -86,7 +101,7 @@
       };
 
       rso.home.extraConfig = {
-        inherit (cfg) programs;
+        inherit (cfg) programs services;
 
         home = {
           inherit username;
