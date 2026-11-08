@@ -19,4 +19,6 @@ in
 
   "avior/restic-repo-password.age".publicKeys = rso ++ [ avior ];
   "avior/restic-backblaze-creds.env.age".publicKeys = rso ++ [ avior ];
+
+  "avior/thursday-env.age".publicKeys = rso ++ [ avior ];
 }

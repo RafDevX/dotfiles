@@ -1,5 +1,8 @@
 {
+  config,
   profiles,
+  pkgs,
+  secrets,
   ...
 }:
 
@@ -49,6 +52,24 @@
       };
     };
   };
+
+  rso.nginx-app = {
+    "thursday.rso.pt" = {
+      workingDirectoryName = "thursday";
+      port = 7468;
+      execStart = "${pkgs.nodejs}/bin/npm start";
+      packages = [ pkgs.nodejs_26 ];
+      environment = {
+        DATABASE_PATH = "/var/lib/nginx-app/thursday/db.sqlite";
+      };
+      environmentFile = config.age.secrets.thursdayEnv.path;
+      basicAuthHashes = {
+        the = "$2y$05$qqpCxClP.McoKi0zIk8j8uJp/DINnncHEUU1C.dkeLYX8mj9WLRFO";
+      };
+    };
+  };
+
+  age.secrets.thursdayEnv.file = secrets.host.thursdayEnv;
 
   system.stateVersion = "25.05";
 }
